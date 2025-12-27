@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.0] - 2025-12-27
+
+### Features
+
+- **Update Command**: Update CLAUDE.md with latest block versions
+- **Update --all**: Update all known projects at once
+- **Sync Status**: Show library Git synchronization status
+- **Sync Push**: Commit and push library changes to remote
+- **Sync Pull**: Pull library changes from remote
+- **Sync Setup**: Configure remote Git repository for library
+- **README.md**: Complete documentation in mark ecosystem style
+
+### Technical
+
+- Project discovery via find command
+- Git operations via child_process
+- Support for multiple projects tracking
+
 ## [0.1.0] - 2025-12-27
 
 ### Features

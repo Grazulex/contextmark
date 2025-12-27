@@ -14,7 +14,7 @@ import { updateCommand } from './commands/update';
 import { colors } from './utils/colors';
 import { handleError } from './utils/errors';
 
-const VERSION = '0.1.0';
+const VERSION = '0.2.0';
 
 function banner(): string {
   return boxen(
