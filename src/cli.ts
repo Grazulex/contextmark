@@ -9,6 +9,8 @@ import { initLibraryCommand } from './commands/init-library';
 import { registerProfileCommands } from './commands/profile';
 import { profilesCommand } from './commands/profiles';
 import { statusCommand } from './commands/status';
+import { registerSyncCommands } from './commands/sync';
+import { updateCommand } from './commands/update';
 import { colors } from './utils/colors';
 import { handleError } from './utils/errors';
 
@@ -132,9 +134,25 @@ program
     }
   });
 
+// Update command
+program
+  .command('update')
+  .description('Update CLAUDE.md with latest blocks')
+  .option('-a, --all', 'Update all known projects')
+  .option('-d, --diff', 'Show changes before applying')
+  .option('-f, --force', 'Force update even if up to date')
+  .action(async (options) => {
+    try {
+      await updateCommand(options);
+    } catch (err) {
+      handleError(err);
+    }
+  });
+
 // Register sub-commands
 registerBlockCommands(program);
 registerProfileCommands(program);
+registerSyncCommands(program);
 
 // Error handling
 program.exitOverride((err) => {
