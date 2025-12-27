@@ -20,7 +20,7 @@ import { updateCommand } from './commands/update';
 import { colors } from './utils/colors';
 import { handleError } from './utils/errors';
 
-const VERSION = '1.0.0';
+const VERSION = '1.0.1';
 
 function banner(): string {
   return boxen(
