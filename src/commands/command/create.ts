@@ -9,7 +9,10 @@ interface CreateCommandOptions {
   description?: string;
 }
 
-export async function createCommandCommand(slug: string, options: CreateCommandOptions): Promise<void> {
+export async function createCommandCommand(
+  slug: string,
+  options: CreateCommandOptions
+): Promise<void> {
   if (!isLibraryInitialized()) {
     throw new LibraryNotFoundError();
   }

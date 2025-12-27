@@ -8,7 +8,10 @@ interface RemoveCommandOptions {
   force?: boolean;
 }
 
-export async function removeCommandCommand(slug: string, options: RemoveCommandOptions): Promise<void> {
+export async function removeCommandCommand(
+  slug: string,
+  options: RemoveCommandOptions
+): Promise<void> {
   if (!isLibraryInitialized()) {
     throw new LibraryNotFoundError();
   }

@@ -18,7 +18,7 @@ export interface ContextCommand {
 export function parseCommand(path: string): ContextCommand {
   const content = readFile(path);
   const parsed = matter(content);
-  const slug = path.replace(COMMANDS_DIR + '/', '').replace('.md', '');
+  const slug = path.replace(`${COMMANDS_DIR}/`, '').replace('.md', '');
 
   return {
     path,

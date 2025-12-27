@@ -46,7 +46,11 @@ export async function commandsCommand(): Promise<void> {
   });
 
   for (const cmd of commands) {
-    table.push([colors.brand(cmd.slug), cmd.frontmatter.name, colors.muted(cmd.frontmatter.description)]);
+    table.push([
+      colors.brand(cmd.slug),
+      cmd.frontmatter.name,
+      colors.muted(cmd.frontmatter.description),
+    ]);
   }
 
   console.log(table.toString());

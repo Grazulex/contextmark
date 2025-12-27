@@ -14,10 +14,7 @@ export function registerCommandCommands(program: Command): void {
     .option('-d, --description <desc>', 'Command description')
     .action(createCommandCommand);
 
-  command
-    .command('show <slug>')
-    .description('Show command content')
-    .action(showCommandCommand);
+  command.command('show <slug>').description('Show command content').action(showCommandCommand);
 
   command
     .command('edit <slug>')

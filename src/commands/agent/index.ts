@@ -14,10 +14,7 @@ export function registerAgentCommands(program: Command): void {
     .option('-d, --description <desc>', 'Agent description')
     .action(createAgentCommand);
 
-  agent
-    .command('show <slug>')
-    .description('Show agent content')
-    .action(showAgentCommand);
+  agent.command('show <slug>').description('Show agent content').action(showAgentCommand);
 
   agent
     .command('edit <slug>')

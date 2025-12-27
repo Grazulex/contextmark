@@ -19,7 +19,7 @@ export interface Agent {
 export function parseAgent(path: string): Agent {
   const content = readFile(path);
   const parsed = matter(content);
-  const slug = path.replace(AGENTS_DIR + '/', '').replace('.md', '');
+  const slug = path.replace(`${AGENTS_DIR}/`, '').replace('.md', '');
 
   return {
     path,
