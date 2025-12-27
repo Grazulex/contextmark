@@ -1,13 +1,15 @@
 <div align="center">
 
+<img src="assets/logo.png" alt="ContextMark Logo" width="120" height="120">
+
 # ContextMark
 
-### 📝 Your Claude Code Context, Versioned and Portable
+### Your Claude Code Context, Versioned and Portable
 **Stop copying CLAUDE.md. Start composing it.**
 
 [![npm version](https://img.shields.io/npm/v/@grazulex/contextmark.svg?style=flat-square&logo=npm&color=cb3837)](https://www.npmjs.com/package/@grazulex/contextmark)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
-[![Documentation](https://img.shields.io/badge/📚-Full_Docs-blue?style=flat-square)](https://contextmark.tech)
+[![Documentation](https://img.shields.io/badge/📚-Documentation-8B5CF6?style=flat-square)](https://contextmark.tech)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
 **Centralize, version, and synchronize your Claude Code contexts (CLAUDE.md, agents, commands) across all your projects and machines.**
@@ -303,7 +305,7 @@ generated_at: 2025-01-15T10:30:00Z
 | [**Stackmark**](https://stackmark.tech) | Docker environment management |
 | [**Shipmark**](https://shipmark.tech) | Release and versioning automation |
 | [**EnvMark**](https://envmark.tech) | Environment variable management |
-| **ContextMark** | Claude Code context management |
+| [**ContextMark**](https://contextmark.tech) | Claude Code context management |
 
 ---
 
