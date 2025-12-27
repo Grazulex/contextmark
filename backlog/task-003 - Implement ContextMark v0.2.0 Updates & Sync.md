@@ -1,7 +1,7 @@
 ---
 id: 3
 title: Implement ContextMark v0.2.0 Updates & Sync
-status: In Progress
+status: Done
 priority: high
 assignees:
   - '@claude'
@@ -12,7 +12,8 @@ subtasks: []
 dependencies: []
 blocked_by: []
 created_date: '2025-12-27T14:53:34.807Z'
-updated_date: '2025-12-27T14:58:12.039Z'
+updated_date: '2025-12-27T14:59:29.108Z'
+closed_date: '2025-12-27T14:59:29.108Z'
 changelog:
   - timestamp: '2025-12-27T14:53:34.807Z'
     action: created
@@ -30,6 +31,10 @@ changelog:
     action: modified
     details: Task updated
     user: AI
+  - timestamp: '2025-12-27T14:59:29.108Z'
+    action: updated
+    details: 'status: In Progress → Done'
+    user: user
 acceptance_criteria: []
 ai_plan: >-
   ## Plan d'implémentation v0.2.0 Updates & Sync

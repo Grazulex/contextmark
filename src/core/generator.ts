@@ -1,4 +1,4 @@
-import { existsSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 import YAML from 'yaml';
 import { loadGlobalConfig } from '../lib/config';
@@ -6,7 +6,9 @@ import { readFile, writeFile } from '../lib/fs';
 import { getProjectClaudePath, getProjectConfigPath } from '../lib/paths';
 import { GLOBAL_DIR } from '../lib/paths';
 import type { Block, BlockReference, LocalConfig } from '../types';
+import { loadAgent } from './agent';
 import { loadBlock } from './block';
+import { loadCommand } from './command';
 import { loadProfile } from './profile';
 
 export interface GenerateOptions {
@@ -73,18 +75,55 @@ export function writeClaudeMd(
   profileSlug: string,
   options: GenerateOptions = {}
 ): LocalConfig {
+  const profile = loadProfile(profileSlug);
   const { content, blocks } = generateClaudeMd(profileSlug, options);
 
   // Write CLAUDE.md
   const claudePath = getProjectClaudePath(projectPath);
   writeFile(claudePath, content);
 
+  // Copy agents from profile
+  const agents: string[] = [];
+  if (profile.config.agents && profile.config.agents.length > 0) {
+    const skillsDir = join(projectPath, '.claude', 'skills');
+    mkdirSync(skillsDir, { recursive: true });
+
+    for (const agentSlug of profile.config.agents) {
+      try {
+        const agent = loadAgent(agentSlug);
+        const destPath = join(skillsDir, `${agentSlug}.md`);
+        copyFileSync(agent.path, destPath);
+        agents.push(agentSlug);
+      } catch {
+        // Agent not found, skip
+      }
+    }
+  }
+
+  // Copy commands from profile
+  const commands: string[] = [];
+  if (profile.config.commands && profile.config.commands.length > 0) {
+    const commandsDir = join(projectPath, '.claude', 'commands');
+    mkdirSync(commandsDir, { recursive: true });
+
+    for (const commandSlug of profile.config.commands) {
+      try {
+        const cmd = loadCommand(commandSlug);
+        const destPath = join(commandsDir, `${commandSlug}.md`);
+        copyFileSync(cmd.path, destPath);
+        commands.push(commandSlug);
+      } catch {
+        // Command not found, skip
+      }
+    }
+  }
+
   // Create local config
   const localConfig: LocalConfig = {
     profile: profileSlug,
     blocks,
-    agents: [],
-    commands: [],
+    agents,
+    commands,
     generated_at: new Date().toISOString(),
   };
 

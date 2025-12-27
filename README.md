@@ -200,6 +200,21 @@ contextmark profiles              # List available profiles
 contextmark profile create <slug> # Create a new profile
 ```
 
+### Agents & Commands
+
+```bash
+contextmark agents                # List available agents
+contextmark agent create <slug>   # Create a new agent
+contextmark agent show <slug>     # Show agent content
+contextmark agent edit <slug>     # Edit an agent
+contextmark commands              # List available commands
+contextmark command create <slug> # Create a new command
+contextmark command show <slug>   # Show command content
+contextmark command edit <slug>   # Edit a command
+contextmark add-agent <slug>      # Add agent to current project
+contextmark add-command <slug>    # Add command to current project
+```
+
 ### Project Management
 
 ```bash

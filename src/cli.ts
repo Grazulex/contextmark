@@ -2,8 +2,14 @@
 
 import boxen from 'boxen';
 import { Command } from 'commander';
+import { addAgentCommand } from './commands/add-agent';
+import { addCommandCommand } from './commands/add-command';
+import { registerAgentCommands } from './commands/agent';
+import { agentsCommand } from './commands/agents';
 import { registerBlockCommands } from './commands/block';
 import { blocksCommand } from './commands/blocks';
+import { registerCommandCommands } from './commands/command';
+import { commandsCommand } from './commands/commands';
 import { initCommand } from './commands/init';
 import { initLibraryCommand } from './commands/init-library';
 import { registerProfileCommands } from './commands/profile';
@@ -14,7 +20,7 @@ import { updateCommand } from './commands/update';
 import { colors } from './utils/colors';
 import { handleError } from './utils/errors';
 
-const VERSION = '0.2.0';
+const VERSION = '0.3.0';
 
 function banner(): string {
   return boxen(
@@ -149,10 +155,60 @@ program
     }
   });
 
+// Agents command
+program
+  .command('agents')
+  .description('List available agents')
+  .action(async () => {
+    try {
+      await agentsCommand();
+    } catch (err) {
+      handleError(err);
+    }
+  });
+
+// Commands command
+program
+  .command('commands')
+  .description('List available commands')
+  .action(async () => {
+    try {
+      await commandsCommand();
+    } catch (err) {
+      handleError(err);
+    }
+  });
+
+// Add agent to project
+program
+  .command('add-agent <slug>')
+  .description('Add an agent to the current project')
+  .action(async (slug) => {
+    try {
+      await addAgentCommand(slug);
+    } catch (err) {
+      handleError(err);
+    }
+  });
+
+// Add command to project
+program
+  .command('add-command <slug>')
+  .description('Add a command to the current project')
+  .action(async (slug) => {
+    try {
+      await addCommandCommand(slug);
+    } catch (err) {
+      handleError(err);
+    }
+  });
+
 // Register sub-commands
 registerBlockCommands(program);
 registerProfileCommands(program);
 registerSyncCommands(program);
+registerAgentCommands(program);
+registerCommandCommands(program);
 
 // Error handling
 program.exitOverride((err) => {

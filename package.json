@@ -1,6 +1,6 @@
 {
   "name": "@grazulex/contextmark",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Your Claude Code context, versioned and portable. Stop copying CLAUDE.md. Start composing it.",
   "type": "module",
   "main": "dist/cli.js",
@@ -47,6 +47,7 @@
   "dependencies": {
     "boxen": "^8.0.1",
     "chalk": "^5.3.0",
+    "cli-table3": "^0.6.5",
     "commander": "^12.1.0",
     "gray-matter": "^4.0.3",
     "inquirer": "^12.2.0",
