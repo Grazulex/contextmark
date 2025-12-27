@@ -1,0 +1,65 @@
+{
+  "name": "@grazulex/contextmark",
+  "version": "0.1.0",
+  "description": "Your Claude Code context, versioned and portable. Stop copying CLAUDE.md. Start composing it.",
+  "type": "module",
+  "main": "dist/cli.js",
+  "bin": {
+    "contextmark": "./dist/cli.js"
+  },
+  "scripts": {
+    "dev": "tsx src/cli.ts",
+    "build": "tsc && node scripts/fix-imports.mjs",
+    "start": "node dist/cli.js",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "check": "biome check . && tsc --noEmit",
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest --coverage",
+    "prepublishOnly": "npm run check && npm run build",
+    "install:global": "npm run build && npm link"
+  },
+  "keywords": [
+    "cli",
+    "claude",
+    "claude-code",
+    "context",
+    "markdown",
+    "ai",
+    "developer-tools",
+    "productivity"
+  ],
+  "author": "Jean-Marc Strauven",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Grazulex/contextmark.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Grazulex/contextmark/issues"
+  },
+  "homepage": "https://www.contextmark.tech/",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": ["dist", "README.md", "LICENSE", "CHANGELOG.md"],
+  "dependencies": {
+    "boxen": "^8.0.1",
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "gray-matter": "^4.0.3",
+    "inquirer": "^12.2.0",
+    "ora": "^8.1.1",
+    "yaml": "^2.6.1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@types/inquirer": "^9.0.7",
+    "@types/node": "^22.10.2",
+    "@vitest/coverage-v8": "^2.1.8",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}
