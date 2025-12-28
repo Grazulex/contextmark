@@ -10,6 +10,7 @@ import {
   GLOBAL_DIR,
   LIBRARY_DIR,
   PROFILES_DIR,
+  PROJECTS_DIR,
 } from '../lib/paths';
 import { DEFAULT_GLOBAL_CONFIG } from '../types';
 
@@ -25,6 +26,7 @@ export function initializeLibrary(): void {
   ensureDir(AGENTS_DIR);
   ensureDir(COMMANDS_DIR);
   ensureDir(GLOBAL_DIR);
+  ensureDir(PROJECTS_DIR);
 
   // Create subdirectories for blocks
   ensureDir(`${BLOCKS_DIR}/laravel`);

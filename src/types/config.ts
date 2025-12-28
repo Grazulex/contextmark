@@ -19,11 +19,14 @@ export interface GlobalConfig {
 }
 
 export interface LocalConfig {
-  profile: string;
+  project: string;
+  profile: string | null;
   blocks: BlockReference[];
   agents?: string[];
   commands?: string[];
   generated_at: string;
+  last_push?: string;
+  last_pull?: string;
 }
 
 export interface BlockReference {

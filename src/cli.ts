@@ -10,17 +10,20 @@ import { registerBlockCommands } from './commands/block';
 import { blocksCommand } from './commands/blocks';
 import { registerCommandCommands } from './commands/command';
 import { commandsCommand } from './commands/commands';
+import { diffCommand } from './commands/diff';
 import { initCommand } from './commands/init';
 import { initLibraryCommand } from './commands/init-library';
 import { registerProfileCommands } from './commands/profile';
 import { profilesCommand } from './commands/profiles';
+import { pullCommand } from './commands/pull';
+import { pushCommand } from './commands/push';
 import { statusCommand } from './commands/status';
 import { registerSyncCommands } from './commands/sync';
 import { updateCommand } from './commands/update';
 import { colors } from './utils/colors';
 import { handleError } from './utils/errors';
 
-const VERSION = '1.0.1';
+const VERSION = '2.0.0';
 
 function banner(): string {
   return boxen(
@@ -37,24 +40,25 @@ function banner(): string {
 
 function examples(): string {
   return `
-${colors.bold('Examples:')}
+${colors.bold('Quick Start:')}
   ${colors.dim('# Initialize the library (first time)')}
   $ contextmark init-library
 
-  ${colors.dim('# Create and manage blocks')}
-  $ contextmark block create laravel/base
-  $ contextmark blocks
-
-  ${colors.dim('# Create and manage profiles')}
-  $ contextmark profile create my-profile
-  $ contextmark profiles
-
-  ${colors.dim('# Initialize a project')}
+  ${colors.dim('# Register a project and save to library')}
   $ cd my-project
-  $ contextmark init --profile my-profile
+  $ contextmark init
+  $ contextmark push
 
-  ${colors.dim('# Check for updates')}
+  ${colors.dim('# Sync between machines')}
+  $ contextmark pull              ${colors.dim('# restore from library')}
+  $ contextmark diff              ${colors.dim('# compare local vs library')}
+  $ contextmark sync push         ${colors.dim('# push library to Git')}
+
+${colors.bold('Advanced (profiles & blocks):')}
+  ${colors.dim('# Use profiles to generate CLAUDE.md')}
+  $ contextmark init --profile laravel
   $ contextmark status
+  $ contextmark update
 
 ${colors.bold('Documentation:')}
   ${colors.brand('https://contextmark.tech')}
@@ -128,13 +132,56 @@ program
     }
   });
 
+// Push command
+program
+  .command('push')
+  .description('Push local config to library')
+  .option('-g, --global', 'Push global config (~/.claude/)')
+  .option('-f, --force', 'Skip confirmation prompts')
+  .action(async (options) => {
+    try {
+      await pushCommand(options);
+    } catch (err) {
+      handleError(err);
+    }
+  });
+
+// Pull command
+program
+  .command('pull')
+  .description('Pull config from library to local')
+  .option('-g, --global', 'Pull global config (~/.claude/)')
+  .option('-f, --force', 'Skip confirmation prompts')
+  .action(async (options) => {
+    try {
+      await pullCommand(options);
+    } catch (err) {
+      handleError(err);
+    }
+  });
+
+// Diff command
+program
+  .command('diff')
+  .description('Compare local config with library')
+  .option('-g, --global', 'Compare global config (~/.claude/)')
+  .action(async (options) => {
+    try {
+      await diffCommand(options);
+    } catch (err) {
+      handleError(err);
+    }
+  });
+
 // Status command
 program
   .command('status')
-  .description('Show project status and check for updates')
-  .action(async () => {
+  .description('Show project sync status')
+  .option('-g, --global', 'Show global config status')
+  .option('-a, --all', 'Show all projects in library')
+  .action(async (options) => {
     try {
-      await statusCommand();
+      await statusCommand(options);
     } catch (err) {
       handleError(err);
     }

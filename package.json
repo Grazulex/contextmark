@@ -1,6 +1,6 @@
 {
   "name": "@grazulex/contextmark",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Your Claude Code context, versioned and portable. Stop copying CLAUDE.md. Start composing it.",
   "type": "module",
   "main": "dist/cli.js",

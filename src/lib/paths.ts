@@ -8,7 +8,14 @@ export const PROFILES_DIR = join(LIBRARY_DIR, 'profiles');
 export const AGENTS_DIR = join(LIBRARY_DIR, 'agents');
 export const COMMANDS_DIR = join(LIBRARY_DIR, 'commands');
 export const GLOBAL_DIR = join(LIBRARY_DIR, 'global');
+export const PROJECTS_DIR = join(LIBRARY_DIR, 'projects');
 export const CONFIG_FILE = join(LIBRARY_DIR, 'config.yml');
+
+// User Claude config paths
+export const USER_CLAUDE_DIR = join(homedir(), '.claude');
+export const USER_CLAUDE_MD = join(USER_CLAUDE_DIR, 'CLAUDE.md');
+export const USER_CLAUDE_RULES = join(USER_CLAUDE_DIR, 'rules');
+export const USER_CLAUDE_SKILLS = join(USER_CLAUDE_DIR, 'skills');
 
 // Project paths
 export const LOCAL_CONFIG_FILE = '.contextmark.yml';
@@ -45,4 +52,30 @@ export function getProjectConfigPath(projectPath: string): string {
 
 export function getProjectClaudeDir(projectPath: string): string {
   return join(projectPath, CLAUDE_DIR);
+}
+
+// Library project paths
+export function getLibraryProjectDir(projectName: string): string {
+  return join(PROJECTS_DIR, projectName);
+}
+
+export function getLibraryProjectClaudeMd(projectName: string): string {
+  return join(PROJECTS_DIR, projectName, CLAUDE_MD_FILE);
+}
+
+export function getLibraryProjectClaudeDir(projectName: string): string {
+  return join(PROJECTS_DIR, projectName, CLAUDE_DIR);
+}
+
+// Global library paths
+export function getLibraryGlobalClaudeMd(): string {
+  return join(GLOBAL_DIR, CLAUDE_MD_FILE);
+}
+
+export function getLibraryGlobalRules(): string {
+  return join(GLOBAL_DIR, 'rules');
+}
+
+export function getLibraryGlobalSkills(): string {
+  return join(GLOBAL_DIR, 'skills');
 }

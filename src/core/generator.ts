@@ -1,5 +1,5 @@
 import { copyFileSync, existsSync, mkdirSync } from 'node:fs';
-import { join } from 'node:path';
+import { basename, join } from 'node:path';
 import YAML from 'yaml';
 import { loadGlobalConfig } from '../lib/config';
 import { readFile, writeFile } from '../lib/fs';
@@ -120,6 +120,7 @@ export function writeClaudeMd(
 
   // Create local config
   const localConfig: LocalConfig = {
+    project: basename(projectPath),
     profile: profileSlug,
     blocks,
     agents,
