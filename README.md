@@ -5,14 +5,14 @@
 # ContextMark
 
 ### Your Claude Code Context, Versioned and Portable
-**Stop copying CLAUDE.md. Start composing it.**
+**Stop copying CLAUDE.md. Start syncing it.**
 
 [![npm version](https://img.shields.io/npm/v/@grazulex/contextmark.svg?style=flat-square&logo=npm&color=cb3837)](https://www.npmjs.com/package/@grazulex/contextmark)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
 [![Documentation](https://img.shields.io/badge/📚-Documentation-8B5CF6?style=flat-square)](https://contextmark.tech)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-**Centralize, version, and synchronize your Claude Code contexts (CLAUDE.md, agents, commands) across all your projects and machines.**
+**Synchronize your Claude Code contexts (CLAUDE.md, rules, skills) across all your projects and machines - like EnvMark for your AI contexts.**
 
 [Quick Start](#-quick-start) • [Documentation](https://contextmark.tech) • [Why ContextMark?](#-why-contextmark)
 
@@ -32,19 +32,18 @@ Managing Claude Code contexts across 20+ repositories and 2 machines:
 │   └── CLAUDE.md  ← "original" version but which one?
 ├── shipmark/
 │   └── CLAUDE.md  ← outdated, forgot to update
-├── envmark/
-│   └── CLAUDE.md  ← diverged from others
 ├── new-project/
 │   └── ???        ← start from scratch again
-└── ... (80+ other repos)
+└── ~/.claude/
+    ├── CLAUDE.md  ← global config, only on this machine
+    └── rules/     ← lost if machine dies
 ```
 
 **Daily frustrations:**
-- Recreate context from scratch for each new project
+- Global config (`~/.claude/`) only exists on this machine
 - Copy-paste between repos = inevitable divergence
-- Update a convention = do it manually in 20 repos
 - Two machines = double maintenance, guaranteed drift
-- Agents and commands scattered, never synchronized
+- No backup of your carefully crafted Claude instructions
 
 ---
 
@@ -57,20 +56,25 @@ npm install -g @grazulex/contextmark
 # Initialize your context library
 contextmark init-library
 
-# Create reusable blocks
-contextmark block create laravel/base
-contextmark block create style/code
+# Save your global Claude config to the library
+contextmark push --global
 
-# Create a profile (combination of blocks)
-contextmark profile create my-stack
+# Register and save a project
+cd ~/projects/my-project
+contextmark init
+contextmark push
 
-# Initialize any project with your profile
-cd ~/projects/new-project
-contextmark init --profile my-stack
+# Sync to Git remote (backup + cross-machine sync)
+contextmark sync setup git@github.com:user/claude-configs.git
+contextmark sync push
+```
 
-# Check for updates across projects
-contextmark status
-contextmark update
+**On another machine:**
+```bash
+contextmark init-library
+contextmark sync setup git@github.com:user/claude-configs.git
+contextmark sync pull
+contextmark pull --global   # Restore your global config
 ```
 
 **→ [Complete Getting Started Guide](https://contextmark.tech/getting-started.html)**
@@ -83,33 +87,16 @@ contextmark update
 <tr>
 <td width="50%">
 
-### 📦 Modular Blocks
-Break your context into reusable, composable blocks:
-- `laravel/base` - Framework conventions
-- `style/code` - Personal code style
-- `tools/docker` - Docker guidelines
+### 🔄 Simple Push/Pull
+Like EnvMark for your Claude configs:
+- `push` saves to library
+- `pull` restores from library
+- `diff` shows changes
 
 </td>
 <td width="50%">
 
-### 🎯 Profiles
-Combine blocks for different project types:
-- `laravel-package` - For Laravel packages
-- `laravel-saas` - For SaaS applications
-- `cli-tool` - For CLI tools
-
-</td>
-</tr>
-<tr>
-<td>
-
-### 🔄 Version Tracking
-Every block is versioned with semver. Know exactly what version each project uses and when updates are available.
-
-</td>
-<td>
-
-### 🌐 Sync Across Machines
+### 🌐 Cross-Machine Sync
 Git-based synchronization keeps your library in sync across all your development machines.
 
 </td>
@@ -117,14 +104,18 @@ Git-based synchronization keeps your library in sync across all your development
 <tr>
 <td>
 
-### 🎨 Beautiful CLI
-Violet-branded interface with tables, boxes, spinners. Context management that feels like a modern dev tool.
+### 📁 Complete Backup
+Back up everything:
+- `~/.claude/CLAUDE.md`
+- `~/.claude/rules/*`
+- `~/.claude/skills/*`
+- Per-project configs
 
 </td>
 <td>
 
 ### 📝 Zero Lock-in
-Standard Markdown files with YAML frontmatter. No proprietary formats. Your context will be readable forever.
+Standard Markdown and YAML files. No proprietary formats. Your context will be readable forever.
 
 </td>
 </tr>
@@ -132,107 +123,48 @@ Standard Markdown files with YAML frontmatter. No proprietary formats. Your cont
 
 ---
 
-## 📚 Core Concepts
-
-### Blocks
-
-Reusable context snippets with frontmatter:
-
-```markdown
----
-name: Laravel Base
-description: Laravel framework conventions
-version: 1.0.0
-tags: [laravel, php]
----
-
-## Laravel Conventions
-
-- Use Form Requests for validation
-- Keep controllers thin
-- Prefer Eloquent over raw queries
-```
-
-### Profiles
-
-YAML files that combine blocks:
-
-```yaml
-name: Laravel Package
-description: For developing Laravel packages
-blocks:
-  - laravel/base
-  - laravel/testing
-  - style/code
-  - style/git
-agents:
-  - reviewer
-  - tester
-```
-
-### Generated CLAUDE.md
-
-```markdown
-<!-- Generated by ContextMark - Profile: laravel-package -->
-<!-- Blocks: laravel/base@1.0.0, style/code@1.0.0 -->
-
-# Project Context
-
-## Laravel Conventions
-[content from laravel/base]
-
----
-
-## Code Style
-[content from style/code]
-```
-
----
-
 ## 🛠 Commands
 
-### Library Management
+### Simple Mode (Recommended)
 
 ```bash
-contextmark init-library          # Initialize ~/.contextmark
-contextmark blocks                # List available blocks
-contextmark block create <slug>   # Create a new block
-contextmark block edit <slug>     # Edit a block
-contextmark profiles              # List available profiles
-contextmark profile create <slug> # Create a new profile
+# Global config (~/.claude/)
+contextmark push --global       # Save to library
+contextmark pull --global       # Restore from library
+contextmark diff --global       # Compare
+
+# Per-project config
+cd ~/projects/my-project
+contextmark init                # Register project
+contextmark push                # Save to library
+contextmark pull                # Restore from library
+contextmark diff                # Compare
+contextmark status              # Check sync status
+
+# Sync with Git remote
+contextmark sync setup <url>    # Configure remote
+contextmark sync push           # Push to remote
+contextmark sync pull           # Pull from remote
+contextmark sync status         # Check remote status
 ```
 
-### Agents & Commands
+### Advanced Mode (Optional)
+
+For power users managing 50+ projects with shared conventions:
 
 ```bash
-contextmark agents                # List available agents
-contextmark agent create <slug>   # Create a new agent
-contextmark agent show <slug>     # Show agent content
-contextmark agent edit <slug>     # Edit an agent
-contextmark commands              # List available commands
-contextmark command create <slug> # Create a new command
-contextmark command show <slug>   # Show command content
-contextmark command edit <slug>   # Edit a command
-contextmark add-agent <slug>      # Add agent to current project
-contextmark add-command <slug>    # Add command to current project
-```
+# Create reusable blocks
+contextmark block create laravel/base
+contextmark blocks
 
-### Project Management
+# Create profiles (combinations of blocks)
+contextmark profile create my-stack
+contextmark profiles
 
-```bash
-contextmark init                  # Initialize project (interactive)
-contextmark init --profile <name> # Initialize with specific profile
-contextmark status                # Check for block updates
-contextmark update                # Update CLAUDE.md with latest blocks
-contextmark update --all          # Update all known projects
-```
-
-### Synchronization
-
-```bash
-contextmark sync status           # Check sync status
-contextmark sync push             # Push library to remote
-contextmark sync pull             # Pull library from remote
+# Initialize project with profile (generates CLAUDE.md)
+contextmark init --profile my-stack
+contextmark status              # Check for block updates
+contextmark update              # Update from blocks
 ```
 
 ---
@@ -242,20 +174,22 @@ contextmark sync pull             # Pull library from remote
 ```
 ~/.contextmark/
 ├── config.yml              # Global configuration
-├── blocks/                 # Reusable context blocks
-│   ├── laravel/
-│   │   ├── base.md
-│   │   └── testing.md
-│   └── style/
-│       ├── code.md
-│       └── git.md
-├── profiles/               # Block combinations
-│   ├── laravel-package.yml
-│   └── default.yml
-├── agents/                 # Reusable agents
-├── commands/               # Custom commands
-└── global/                 # Global context (all projects)
-    └── CLAUDE.md
+├── global/                 # Your ~/.claude/ backup
+│   ├── CLAUDE.md
+│   ├── rules/
+│   │   ├── backmark.md
+│   │   └── git-commits.md
+│   └── skills/
+│       └── backmark/
+├── projects/               # Per-project configs
+│   ├── my-app/
+│   │   └── CLAUDE.md
+│   └── another-project/
+│       └── CLAUDE.md
+├── blocks/                 # [Advanced] Reusable blocks
+├── profiles/               # [Advanced] Block combinations
+├── agents/                 # [Advanced] Reusable agents
+└── commands/               # [Advanced] Custom commands
 ```
 
 ---
@@ -265,11 +199,11 @@ contextmark sync pull             # Pull library from remote
 ### Global Config (`~/.contextmark/config.yml`)
 
 ```yaml
-default_profile: laravel-package
+default_profile: default
 
 sync:
   method: git
-  remote: git@github.com:user/contextmark-library.git
+  remote: git@github.com:user/claude-configs.git
   auto_pull: true
   auto_push: false
 
@@ -284,15 +218,11 @@ global:
 ### Project Config (`.contextmark.yml`)
 
 ```yaml
-profile: laravel-package
-blocks:
-  - name: laravel/base
-    version: 1.0.0
-    hash: a1b2c3d4
-  - name: style/code
-    version: 2.0.0
-    hash: e5f6g7h8
+project: my-project
+profile: null              # null = simple mode, or profile name
+blocks: []
 generated_at: 2025-01-15T10:30:00Z
+last_push: 2025-01-15T10:35:00Z
 ```
 
 ---
