@@ -23,7 +23,7 @@ import { updateCommand } from './commands/update';
 import { colors } from './utils/colors';
 import { handleError } from './utils/errors';
 
-const VERSION = '1.0.1';
+const VERSION = '2.0.0';
 
 function banner(): string {
   return boxen(
