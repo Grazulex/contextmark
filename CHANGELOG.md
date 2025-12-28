@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.0](https://github.com/Grazulex/contextmark/releases/tag/v2.0.0) (2025-12-28)
+
+### Features
+
+- simplify workflow with push/pull commands ([d401846](https://github.com/Grazulex/contextmark/commit/d4018461449a3df0a8374915ac8d5c618f7dd290))
+
+### Chores
+
+- **release:** bump version to 2.0.0 ([a04c6fc](https://github.com/Grazulex/contextmark/commit/a04c6fc7288d9433ecd42eba63830db63f568ccf))
 ## [0.2.0] - 2025-12-27
 
 ### Features
